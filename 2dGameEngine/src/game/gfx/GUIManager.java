@@ -1,6 +1,7 @@
 package game.gfx;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import game.Handler;
@@ -12,6 +13,7 @@ public class GUIManager {
 	
 	private Color c1;
 	private Color c2;
+	private Font font;
 
 	private int width, height;
 	private int textX, textY;
@@ -20,6 +22,8 @@ public class GUIManager {
 		incompletedQuests = "";
 		height = handler.getHeight();
 		width = handler.getWidth();
+		
+		font = new Font("Arial",Font.PLAIN, width/16/5);
 		
 		textX = width / 5;
 		textY = height - height / 6;
@@ -43,6 +47,7 @@ public class GUIManager {
 		
 		
 		g.setColor(c2);
+		g.setFont(font);
 		g.drawString("Incompleted Quests", width/10, textYOffset);
 		for (String line : incompletedQuests.split("\n")){
 			textYOffset += g.getFontMetrics().getHeight();
