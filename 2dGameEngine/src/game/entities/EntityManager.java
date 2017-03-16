@@ -16,6 +16,8 @@ public class EntityManager {
 	private Handler handler;
 	private ArrayList<Entity> entities;	
 	
+	private Entity uniqueEntities[];	
+	
 	////Start//////
 	// 2/28/2017 // 		Alex
 	///////////////
@@ -42,6 +44,8 @@ public class EntityManager {
 		this.handler = handler;
 		this.player = player;
 		entities = new ArrayList<Entity>();
+		uniqueEntities = new Entity[100];
+		uniqueEntities[0] = player;
 		entities.add(player);
 	}
 	
@@ -92,6 +96,9 @@ public class EntityManager {
 	
 	public void addEntity(Entity e){
 		entities.add(e);
+		if(uniqueEntities[e.getID()] == null){
+			uniqueEntities[e.getID()] = e;
+		}
 	}
 	
 	//Getters & Setters
@@ -118,5 +125,9 @@ public class EntityManager {
 
 	public void setEntities(ArrayList<Entity> entities) {
 		this.entities = entities;
+	}
+	
+	public Entity getEntity(int id){
+		return uniqueEntities[id];
 	}
 }

@@ -18,6 +18,8 @@ public class Handler {
 	
 	public Handler(Game game){
 		this.game = game;
+
+		game.setQuestManager(this);
 		
 	}
 	
@@ -40,16 +42,10 @@ public class Handler {
 	public GameCamera getGameCamera(){
 		return game.getGameCamera();
 	}
-	
-	////Start//////
-	// 2/28/2017 // 		Alex
-	///////////////
+
 	public MouseManager getMouseManager(){
 		return game.getMouseManager();
 	}
-	////Stop//////
-	// 2/28/2017 // 		/Alex
-	///////////////
 	
 	public Game getGame() {
 		return game;

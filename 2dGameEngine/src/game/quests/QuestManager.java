@@ -1,82 +1,118 @@
 package game.quests;
 
+import game.Handler;
 import game.entities.Entity;
 import game.entities.statics.FilledSign;
-import game.gfx.GUIManager;
+import game.entities.statics.Interactable;
 
 public class QuestManager{
 	
 	private SignQuest signQuest;
 	
-	private Entity[] activeEntities;
-	private int[] activeIndices;
+	private Interactable[] activeEntities;
+	private int[] activeIndicies;
 	private int maxNumberOfActiveQuests;
 	
-	public QuestManager(){
-		signQuest = new SignQuest();
+	private Handler handler;
+	
+	public QuestManager(Handler handler){
+		signQuest = new SignQuest(handler);
 		maxNumberOfActiveQuests = 3;
 		
-		activeEntities = new Entity[maxNumberOfActiveQuests];
-		activeIndices = new int[maxNumberOfActiveQuests];
+		activeEntities = new Interactable[maxNumberOfActiveQuests];
+		activeIndicies = new int[maxNumberOfActiveQuests];
 		
-	}
-	
-	public void setQuestCompleted(Entity e, int questID){
-		if(e instanceof FilledSign){
-			signQuest.setQuestCompleted(questID);
-		}
-	}
-	
-	public boolean isQuestActive(Entity e, int questID){
-		if(e instanceof FilledSign){
-			return signQuest.isQuestActive(questID);
-		}else 
-			return false;
-	}
-	
-	public void setQuestActive(Entity e, int questID){
-		if(e instanceof FilledSign){
-			signQuest.setQuestActive(questID);
-		}
-	}
-	
-	public void setQuestInactive(Entity e, int questID){
-		if(e instanceof FilledSign){
-			signQuest.setQuestInactive(questID);
-		}	
-	}
-	
-	public String getQuestRequirements(Entity e, int questID){	
-		if(e instanceof FilledSign){
-			return signQuest.getQuestRequirements(questID);
-		}else 
-			return null;
-	}
-	
-	public boolean[] getCompletedQuests(Entity e){
-		if(e instanceof FilledSign){
-			return signQuest.getCompletedQuests();
-		}else 
-			return null;
+		this.handler = handler;
+		
+		
+		
 	}
 	
 	// checks to see if there are any active quests affiliated with 
 	// the asset currently interacting with the player
-	public void setAssetCurrentlyInteractingWith(Entity e){
-		
-		checkForQuests(e);
+	public void setAssetCurrentlyInteractingWith(Interactable i){
+		if(getQuestType(i) != null)
+			setQuests(i);
+		checkForQuests(i);
 		
 		//GUIManager.setCompletedQuestsText(completedQuests);
 	}
 	
-	private void checkForQuests(Entity e){
+	public void setQuestCompleted(Interactable i, int questID){
+		getQuestType(i).setQuestCompleted(questID);
+	}
+	
+	public boolean isQuestActive(Interactable i, int questID){
+		return getQuestType(i).isQuestActive(questID);
+	}
+	
+	public void setQuestActive(Interactable i, int questID){
+		getQuestType(i).setQuestActive(questID);
+	}
+	
+	public void setQuestInactive(Interactable i, int questID){
+		getQuestType(i).setQuestInactive(questID);
+
+	}
+	
+	public String getQuestRequirements(Entity e){	
+		String str = "";
 		for(int i = 0; i < maxNumberOfActiveQuests; i++){
-			if(activeEntities[i] != null){
-				if(e.getClass().equals(activeEntities[i].getClass())){
-					
+			if(activeIndicies[i] != -1)
+				str += "    -"+getQuestType(activeEntities[i]).getQuestRequirements(activeIndicies[i]) + "\n";
+		}
+		
+		return str;
+	}
+	
+	public boolean[] getCompletedQuests(Interactable i){
+		return getQuestType(i).getCompletedQuests();
+	}
+	
+	private void setQuests(Interactable i){
+		for(int n = 0; n < maxNumberOfActiveQuests; n++){
+			if(activeEntities[n] == null){
+				activeEntities[n] = i;
+				activeIndicies[n] = getQuestType(i).getIncompletedQuestID();
+			}
+		}
+	}
+	
+	private void checkForQuests(Interactable i){
+		for(int n = 0; n < maxNumberOfActiveQuests; n++){
+			if(activeEntities[n] != null){
+				if(getQuestType(activeEntities[n]).getEntityAtQuestNum(activeIndicies[n]) == null)
+					continue;
+				if(i.toString().equals(handler.getWorld().getEntityManager().getEntity(getQuestType(activeEntities[n]).getEntityAtQuestNum(activeIndicies[n]).getID()).toString())){
+					getQuestType(activeEntities[n]).setQuestCompleted(activeIndicies[n]);
+					getQuestType(activeEntities[n]).setQuestInactive(activeIndicies[n]);
+					activeIndicies[n] = -1;
+					activeEntities[n] = null;
+					sortActives(n);
+					break;
 				}
 			}
-			
 		}
+	}
+	
+	private void sortActives(int index){
+		for(; index < maxNumberOfActiveQuests-1; index++){
+			activeEntities[index] = activeEntities[index+1];
+			activeIndicies[index] = activeIndicies[index+1];
+		}
+		
+		activeEntities[index] = null;
+		activeIndicies[index] = -1;
+	}
+	
+	private QuestInterface getQuestType(Interactable i){
+		if(i instanceof FilledSign){
+			return signQuest;
+		}else 
+			return null;
+	}
+	
+	public void setHandler(Handler handler){
+		this.handler = handler;
 	}
 }

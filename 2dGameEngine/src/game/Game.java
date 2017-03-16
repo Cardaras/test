@@ -57,6 +57,7 @@ public class Game implements Runnable{
 	//Camera class used to follow player
 	private GameCamera gameCamera;
 	
+	//questManager is set inside the handler class
 	private QuestManager questManager;
 	
 	//Handler class used to give other classes access to specific variables
@@ -70,7 +71,7 @@ public class Game implements Runnable{
 		
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
-		questManager = new QuestManager();
+		
 	
 	}
 
@@ -79,9 +80,6 @@ public class Game implements Runnable{
 		display = new Display(title, width, height);	
 		display.getFrame().addKeyListener(keyManager);
 		
-		////Start//////
-		// 2/28/2017 // 		Alex
-		///////////////
 		//adds functionality to both mouse listener and mouse motion listener to the JFrame and Canvas
 		//we add it to both JFrame and Canvas because one or the other might not be focused at a given time.
 		//with both of them being listened to, no mouse movements or clicks will be missed.
@@ -89,12 +87,9 @@ public class Game implements Runnable{
 		display.getFrame().addMouseMotionListener(mouseManager);
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
-		////Stop//////
-		// 2/28/2017 // 		/Alex
-		///////////////
+
 		
 		Assets.init();
-		
 		
 		handler = new Handler(this);
 		gameCamera= new GameCamera(handler, 0, 0);
@@ -105,19 +100,9 @@ public class Game implements Runnable{
 		
 		
 		
-		
-		////Start//////
-		// 2/28/2017 // 		Alex
-		///////////////
-		
-		//State.setState(gameState);
-		
 		// Debugging, testing out menuState
 		State.setState(gameState);
-		////Stop//////
-		// 2/28/2017 // 		/Alex
-		///////////////
-		
+
 		
 		
 		
@@ -204,15 +189,9 @@ public class Game implements Runnable{
 		return keyManager;
 	}
 	
-	////Start//////
-	// 2/28/2017 // 		Alex
-	///////////////
 	public MouseManager getMouseManager(){
 		return mouseManager;
 	}
-	////Stop//////
-	// 2/28/2017 // 		/Alex
-	///////////////
 	
 	public GameCamera getGameCamera(){
 		return gameCamera;
@@ -246,5 +225,9 @@ public class Game implements Runnable{
 	
 	public int getHeight(){
 		return height;
+	}
+	
+	public void setQuestManager(Handler handler){
+		this.questManager = new QuestManager(handler);
 	}
 }

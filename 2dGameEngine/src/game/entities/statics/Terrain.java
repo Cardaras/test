@@ -1,6 +1,5 @@
 package game.entities.statics;
 
-import game.Game;
 import game.Handler;
 import game.entities.Entity;
 import game.entities.EntityManager;
@@ -40,19 +39,19 @@ public class Terrain {
 			e = null;
 			break;
 		case 1:
-			e = new PineTree(handler, x* TILE_WIDTH, y*TILE_HEIGHT);
+			e = new PineTree(handler, x* TILE_WIDTH, y*TILE_HEIGHT, 1);
 			break;
 			
 		case 2:
-			e = new DeadTree(handler, x* TILE_WIDTH, y*TILE_HEIGHT);
+			e = new DeadTree(handler, x* TILE_WIDTH, y*TILE_HEIGHT, 2);
 			break;
 			
 		case 3:
-			e = new FilledSign(handler, x* TILE_WIDTH, y*TILE_HEIGHT);
+			e = new FilledSign(handler, x* TILE_WIDTH, y*TILE_HEIGHT, 3);
 			break;
 			
 		case 4:
-			e = new EmptySign(handler, x* TILE_WIDTH, y* TILE_HEIGHT);
+			e = new EmptySign(handler, x* TILE_WIDTH, y* TILE_HEIGHT, 4);
 			break;
 			
 		default:

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import game.Handler;
+import game.entities.statics.Interactable;
 
 // Entity: pretty much anything that moves will extend this class
 
@@ -30,8 +31,7 @@ public abstract class Entity {
 	public abstract void tick();
 	public abstract void render(Graphics g);
 	
-	public abstract boolean isInteractable();
-	public abstract void interact();
+	public abstract int getID();
 	
 	// offset = intended move location
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
@@ -42,8 +42,8 @@ public abstract class Entity {
 			// otherwise check collision
 			//See if rectangles intersect (This is highly inefficient change later on)
 			if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))){
-				if(e.isInteractable()){
-					e.interact();
+				if(e instanceof Interactable){
+					((Interactable) e).interact();
 				}
 				return true;
 			}			

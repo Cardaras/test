@@ -6,18 +6,17 @@ import game.Handler;
 import game.gfx.Assets;
 
 public class DeadTree extends StaticEntity{
+	private int id;
 	
-	private boolean interactable;
-	
-	public DeadTree(Handler handler, int x, int y) {
+	public DeadTree(Handler handler, int x, int y, int id) {
 		super(handler, x, y, handler.getWidth() / 16*2, handler.getHeight() / 9 *2);
 		
 		bounds.x = handler.getWidth() / 16 / 2;
 		bounds.y = handler.getHeight() / 9 ;
 		bounds.width = handler.getWidth() / 16  - 1;
 		bounds.height = handler.getHeight() / 9  - 1;
-		
-		interactable = false;
+
+		this.id = id;
 	}
 
 	@Override
@@ -32,13 +31,7 @@ public class DeadTree extends StaticEntity{
 	}
 
 	@Override
-	public boolean isInteractable() {
-		return interactable;
+	public int getID(){
+		return id;
 	}
-	
-	@Override
-	public void interact(){
-		
-	}
-
 }

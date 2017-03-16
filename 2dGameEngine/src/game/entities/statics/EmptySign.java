@@ -8,12 +8,14 @@ import game.gfx.Assets;
 import game.gfx.GUIManager;
 import game.quests.QuestManager;
 
-public class EmptySign extends StaticEntity{
+public class EmptySign extends StaticEntity implements Interactable{
 	private boolean interactable;
 	private boolean currentlyInteracting;
 	private QuestManager questManager;
 	
-	public EmptySign(Handler handler, int x, int y) {
+	private int id;
+	
+	public EmptySign(Handler handler, int x, int y, int id) {
 		super(handler, x, y, handler.getWidth() / 16 , handler.getHeight() / 9 );
 		
 		bounds.x = 0;
@@ -25,6 +27,9 @@ public class EmptySign extends StaticEntity{
 		currentlyInteracting = false;
 		questManager = handler.getQuestManager();
 		
+		System.out.println("Here");
+		
+		this.id = id;
 	}
 
 	@Override
@@ -50,11 +55,14 @@ public class EmptySign extends StaticEntity{
 		}	
 	}
 	
-	private void checkInteractions(){
+	public void checkInteractions(){
 		updateQuests();
 	}
 	
 	private void updateQuests(){	
+		if(questManager == null){
+			System.out.println("Halp");
+		}
 		questManager.setAssetCurrentlyInteractingWith(this);
 	}
 	
@@ -62,4 +70,9 @@ public class EmptySign extends StaticEntity{
 	public void render(Graphics g) {
 		g.drawImage(Assets.emptySign, (int)(x - handler.getGameCamera().getxOffset()), (int)(y - handler.getGameCamera().getyOffset()), width, height, null);
 	}
+	
+	public int getID(){
+		return id;
+	}
+
 }

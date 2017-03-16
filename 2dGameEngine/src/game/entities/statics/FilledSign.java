@@ -8,13 +8,15 @@ import game.gfx.Assets;
 import game.gfx.GUIManager;
 import game.quests.QuestManager;
 
-public class FilledSign extends StaticEntity{
+public class FilledSign extends StaticEntity implements Interactable{
 	private boolean interactable;
 	private boolean currentlyInteracting;
 	
 	private QuestManager questManager;
 	
-	public FilledSign(Handler handler, int x, int y) {
+	private int id;
+	
+	public FilledSign(Handler handler, int x, int y, int id) {
 		super(handler, x, y, handler.getWidth() / 16 , handler.getHeight() / 9 );
 		
 		bounds.x = 0;
@@ -26,6 +28,8 @@ public class FilledSign extends StaticEntity{
 		currentlyInteracting = false;
 		
 		questManager = handler.getQuestManager();
+		
+		this.id = id;
 	}
 
 	@Override
@@ -57,11 +61,9 @@ public class FilledSign extends StaticEntity{
 		}	
 	}
 	
-	private void checkInteractions(){
+	public void checkInteractions(){
 		updateQuests();
-		setCurrentQuests();
 		GUIManager.setIncompletedQuestsText(getCurrentQuestDescription());
-
 	}
 	
 	private void updateQuests(){	
@@ -71,37 +73,11 @@ public class FilledSign extends StaticEntity{
 
 	}
 	
-	private void setCurrentQuests(){
-		int count = 0;
-		int index = 0;
-		boolean[] questCompleted = questManager.getCompletedQuests(this);
-		
-		while(count <= 2 && index < questCompleted.length){
-			// updates active quest in the sign quest class
-			if(questCompleted[index] == false && questManager.isQuestActive(this, index) == false){
-				questManager.setQuestActive(this, index);
-				count++;
-			}
-			index++;
-		}
+	private String getCurrentQuestDescription(){
+		return questManager.getQuestRequirements(this);
 	}
 	
-	private String getCurrentQuestDescription(){
-		String s = "";
-		boolean[] questCompleted = questManager.getCompletedQuests(this);
-		
-		int count = 0;
-		int index = 0;
-		while(count <= 2 && index < questCompleted.length){
-			if(questCompleted[index] == false){
-				String description = questManager.getQuestRequirements(this, index);
-				if(description != null){
-					s += "   -" + description + "\n";
-					count++;
-				}
-			}	
-			index++;
-		}
-		return s;
+	public int getID(){
+		return id;
 	}
 }

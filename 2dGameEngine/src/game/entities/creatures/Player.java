@@ -1,10 +1,8 @@
 package game.entities.creatures;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import game.Game;
 import game.Handler;
 import game.gfx.Animation;
 import game.gfx.Assets;
@@ -24,9 +22,10 @@ public class Player extends Creature{
 	
 	private int moveDistance;
 	private int targetX, targetY;
+	private int threshold;
 	private boolean isMoving;
 	private boolean up, down, left, right;
-	
+	private boolean snapped;
 	private boolean interactable;
 
 	public Player(Handler handler, float x, float y) {
@@ -38,16 +37,17 @@ public class Player extends Creature{
 		bounds.height = handler.getHeight() / 9 / 2 - 1;
 		
 		//Animations
-		animationUp = new Animation(150, Assets.player_up, true);
-		animationDown = new Animation(150, Assets.player_down, true);
-		animationLeft = new Animation(150, Assets.player_left, true);
-		animationRight = new Animation(150, Assets.player_right, true);
+		animationUp = new Animation(100, Assets.player_up, true);
+		animationDown = new Animation(100, Assets.player_down, true);
+		animationLeft = new Animation(100, Assets.player_left, true);
+		animationRight = new Animation(100, Assets.player_right, true);
 		
 		idolAnimationUp = new Animation(200, Assets.player_up_idol, true);
 		idolAnimationDown = new Animation(200, Assets.player_down_idol, true);
 		idolAnimationLeft = new Animation(200, Assets.player_left_idol, true);
 		idolAnimationRight = new Animation(200, Assets.player_right_idol, true);
 		
+		threshold = TILE_LENGTH / 10;
 		interactable = true;
 		
 	}
@@ -71,9 +71,6 @@ public class Player extends Creature{
 		//center camera on player
 		handler.getGameCamera().centerOnEntity(this);
 	}
-	
-	
-boolean snapped;
 	
 	private void getInput(){
 		
@@ -138,7 +135,7 @@ boolean snapped;
 			}
 			
 		}
-		int threshold = TILE_LENGTH / 12;
+		///////////////////////////Already Moving///////////////////////////////////////
 		if(isMoving){
 			
 			if(this.up){
@@ -156,6 +153,7 @@ boolean snapped;
 				}
 				if(y <= targetY){
 					y = targetY;
+					resetAnimation();
 					isMoving = false;
 				}
 			}else
@@ -174,6 +172,7 @@ boolean snapped;
 				}
 				if(y >= targetY){
 					y = targetY;
+					resetAnimation();
 					isMoving = false;
 				}
 			}else
@@ -193,6 +192,7 @@ boolean snapped;
 				
 				if(x <= targetX){
 					x = targetX;
+					resetAnimation();
 					isMoving = false;
 				}
 			}else
@@ -211,6 +211,7 @@ boolean snapped;
 				}
 				if(x >= targetX){
 					x = targetX;
+					resetAnimation();
 					isMoving = false;
 				}
 			}
@@ -228,17 +229,18 @@ boolean snapped;
 		}
 	}
 	
-	private void resetDirection(){
-		this.up = false;
-		this.down = false;
-		this.left = false;
-		this.right = false;
-		
+	private void resetAnimation(){
 		animationUp.setCurrentFrame(1);
 		animationDown.setCurrentFrame(1);
 		animationLeft.setCurrentFrame(1);
 		animationRight.setCurrentFrame(1);
-		
+	}
+	
+	private void resetDirection(){
+		this.up = false;
+		this.down = false;
+		this.left = false;
+		this.right = false;		
 	}
 	
 	public void render(Graphics g) {
@@ -247,12 +249,6 @@ boolean snapped;
 
 		g.drawImage(getCurrentAnimationFrame(),displayX - width / 4,displayY, width, height,null);
 		
-		
-
-//		g.setColor(Color.BLUE);
-//		g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()),
-//				(int)(y+ bounds.y - handler.getGameCamera().getyOffset()),
-//				bounds.width,bounds.height);
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
@@ -276,16 +272,6 @@ boolean snapped;
 			return idolAnimationDown.getCurrentFrame();
 		}
 	}
-
-	@Override
-	public boolean isInteractable() {
-		return interactable;
-	}
-	
-	@Override
-	public void interact(){
-		
-	}
 	
 	public String getDirectionFacing(){
 		if(up){
@@ -297,5 +283,11 @@ boolean snapped;
 		}else 
 			return "RIGHT";
 		
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
