@@ -22,40 +22,18 @@ public class World {
 	//Entities
 	private EntityManager entityManager;
 	
-	///////Start///////
-	//   3/1/2017    //      Alex
-	///////////////////
-	
 	private Terrain terrain;
 	
 	private GUIManager guiManager;
-	
-	//public World(Handler handler, String path){
+
 	public World(Handler handler, String worldPath, String terrainPath){
-		
-	
-		///////Stop///////
-		//   3/1/2017    //      Alex
-		///////////////////
 		
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 0, 0));
 		
-			///////Start///////
-			//   3/1/2017    //      Alex
-			///////////////////
 		terrain = new Terrain(entityManager, handler, terrainPath);
 		
-		//loadWorld(path);
-		
 		loadWorld(worldPath);
-		
-
-		
-		///////Stop///////
-		//   3/1/2017    //      Alex
-		///////////////////
-
 		
 		// reads the second line of world.txt to find player spawn location.
 		entityManager.getPlayer().setX(spawnX * handler.getWidth() / 16);
@@ -86,7 +64,6 @@ public class World {
 		
 		//Entities
 		entityManager.render(g);
-		
 		
 		guiManager.render(g);
 	}

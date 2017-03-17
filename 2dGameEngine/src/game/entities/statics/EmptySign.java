@@ -27,8 +27,6 @@ public class EmptySign extends StaticEntity implements Interactable{
 		currentlyInteracting = false;
 		questManager = handler.getQuestManager();
 		
-		System.out.println("Here");
-		
 		this.id = id;
 	}
 

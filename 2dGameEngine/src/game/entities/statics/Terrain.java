@@ -35,23 +35,29 @@ public class Terrain {
 	private Entity getEntity(int id, int x, int y){
 		Entity e = null;
 		switch(id){
+		
 		case 0:
 			e = null;
 			break;
+			
 		case 1:
-			e = new PineTree(handler, x* TILE_WIDTH, y*TILE_HEIGHT, 1);
+			e = new PineTree(handler, x*TILE_WIDTH, y*TILE_HEIGHT, 1);
 			break;
 			
 		case 2:
-			e = new DeadTree(handler, x* TILE_WIDTH, y*TILE_HEIGHT, 2);
+			e = new DeadTree(handler, x*TILE_WIDTH, y*TILE_HEIGHT, 2);
 			break;
 			
 		case 3:
-			e = new FilledSign(handler, x* TILE_WIDTH, y*TILE_HEIGHT, 3);
+			e = new FilledSign(handler, x*TILE_WIDTH, y*TILE_HEIGHT, 3);
 			break;
 			
 		case 4:
-			e = new EmptySign(handler, x* TILE_WIDTH, y* TILE_HEIGHT, 4);
+			e = new EmptySign(handler, x*TILE_WIDTH, y*TILE_HEIGHT, 4);
+			break;
+			
+		case 5:
+			e = new StrawHouse(handler, x*TILE_WIDTH, y*TILE_HEIGHT, 5);
 			break;
 			
 		default:

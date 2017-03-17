@@ -89,7 +89,7 @@ public class QuestManager{
 					activeIndicies[n] = -1;
 					activeEntities[n] = null;
 					sortActives(n);
-					break;
+					n--;
 				}
 			}
 		}

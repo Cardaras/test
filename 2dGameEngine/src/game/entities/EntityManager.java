@@ -17,10 +17,7 @@ public class EntityManager {
 	private ArrayList<Entity> entities;	
 	
 	private Entity uniqueEntities[];	
-	
-	////Start//////
-	// 2/28/2017 // 		Alex
-	///////////////
+
  	private Comparator<Entity> renderSort = new Comparator<Entity>(){
 
 		@Override
@@ -34,11 +31,6 @@ public class EntityManager {
 		}
 		
 	};
-	
-	/////Stop//////
-	// 2/28/2017 // 	/Alex
-	///////////////
-	
 	
 	public EntityManager(Handler handler, Player player){
 		this.handler = handler;
@@ -66,15 +58,8 @@ public class EntityManager {
 				e.tick();
 			}
 		}
-		
-	////Start//////
-	// 2/28/2017 // 		Alex
-	///////////////
 		// re-sort the entities.
 		entities.sort(renderSort);
-	////Stop//////
-	// 2/28/2017 // 		/Alex
-	///////////////
 	}
 	public void render(Graphics g){
 		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILE_WIDTH);

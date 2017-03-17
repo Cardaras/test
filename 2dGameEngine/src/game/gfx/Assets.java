@@ -10,6 +10,8 @@ public class Assets {
 	
 	public static BufferedImage deadTree, pineTree, emptySign, filledSign;
 	
+	public static BufferedImage houseOne;
+	
 	public static BufferedImage[] player_up;
 	public static BufferedImage[] player_down;
 	public static BufferedImage[] player_left;
@@ -24,11 +26,8 @@ public class Assets {
 	public static void init(){
 		SpriteSheet terrainSS = new SpriteSheet(ImageLoader.loadImage("/textures/SpriteSheet32x32.png"));
 		SpriteSheet playerSS = new SpriteSheet(ImageLoader.loadImage("/textures/Player.png"));
-		
-		//http://zetavares852.deviantart.com/art/Pokemon-Gaia-Project-Tileset-1-155863852
-		SpriteSheet treeSS = new SpriteSheet(ImageLoader.loadImage("/textures/TreeSheet.png"));
-		
 		SpriteSheet terrainSheet = new SpriteSheet(ImageLoader.loadImage("/textures/asset_sheet.png"));
+		SpriteSheet houseSheet = new SpriteSheet(ImageLoader.loadImage("/textures/House.png"));
 		
 		//Tiles
 		dirt = terrainSS.crop(WIDTH * 0, 0, WIDTH, HEIGHT);
@@ -57,8 +56,7 @@ public class Assets {
 		player_right[1] = playerSS.crop(WIDTH * 1, HEIGHT * 2, WIDTH , HEIGHT);
 		player_right[2] = playerSS.crop(WIDTH * 2, HEIGHT * 2, WIDTH , HEIGHT);
 		
-				//Idol
-		
+		//Idol
 		player_up_idol = new BufferedImage[1];
 		player_up_idol[0] = playerSS.crop(WIDTH * 1, HEIGHT * 3, WIDTH , HEIGHT);
 		
@@ -79,9 +77,8 @@ public class Assets {
 		pineTree = terrainSheet.crop(WIDTH * 0, HEIGHT * 9, WIDTH * 2, HEIGHT * 2);
 		deadTree = terrainSheet.crop(WIDTH * 0, HEIGHT * 7, WIDTH * 2, HEIGHT * 2);
 		
-		
-		
-		
+		//Structures
+		houseOne = houseSheet.crop(WIDTH * 0, HEIGHT * 0, WIDTH * 4, HEIGHT * 5);
 	}
 	
 	public static int getWidth(){
